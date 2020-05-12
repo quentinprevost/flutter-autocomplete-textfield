@@ -169,6 +169,9 @@ class AutoCompleteTextFieldState<T> extends State<AutoCompleteTextField> {
       textCapitalization: textCapitalization,
       decoration: decoration,
       style: style,
+      autofocus: true,
+      autocorrect: false,
+      textAlign: TextAlign.left,
       keyboardType: keyboardType,
       focusNode: focusNode ?? new FocusNode(),
       controller: controller ?? new TextEditingController(),
@@ -350,15 +353,12 @@ class AutoCompleteTextFieldState<T> extends State<AutoCompleteTextField> {
 
   List<T> getSuggestions(List<T> suggestions, Comparator<T> sorter,
       Filter<T> filter, int maxAmount, String query) {
-    if (null == query || query.length < minLength) {
+    if (query != null &&
+        query != "" &&
+        (suggestions == null && suggestions.length == 0)) {
       return [];
     }
 
-    suggestions = suggestions.where((item) => filter(item, query)).toList();
-    suggestions.sort(sorter);
-    if (suggestions.length > maxAmount) {
-      suggestions = suggestions.sublist(0, maxAmount);
-    }
     return suggestions;
   }
 
